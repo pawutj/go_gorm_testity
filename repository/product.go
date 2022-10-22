@@ -1,11 +1,7 @@
 package repository
 
-type Product struct {
-	ProductName string `db:"product_name"`
-	Price       int    `db:"price"`
-}
+import "github.com/pawutj/go_gorm_testity/entities"
 
 type ProductRepository interface {
-	Create(Product) (*Product, error)
-	GetAll() ([]Product, error)
+	Create(product *entities.Product) error
 }
