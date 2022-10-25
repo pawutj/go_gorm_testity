@@ -14,3 +14,9 @@ func (m *ProductRepository) Create(product *entities.Product) error {
 
 	return args.Error(0)
 }
+
+func (m *ProductRepository) GetAll() []entities.Product {
+	products := []entities.Product{}
+
+	return products
+}

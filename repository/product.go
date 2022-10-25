@@ -12,6 +12,7 @@ type productRepository struct {
 
 type ProductRepository interface {
 	Create(product *entities.Product) error
+	GetAll() []entities.Product
 }
 
 func InitialProductRepository() ProductRepository {
@@ -27,7 +28,16 @@ func InitialProductRepository() ProductRepository {
 
 func (repository *productRepository) Create(product *entities.Product) error {
 
-	repository.db.Create(&product)
+	dbc := repository.db.Create(&product)
+	if dbc != nil {
+		return nil
+	}
 
 	return nil
+}
+
+func (repository *productRepository) GetAll() []entities.Product {
+	products := []entities.Product{}
+	repository.db.Find(&products)
+	return products
 }

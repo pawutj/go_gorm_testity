@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/pawutj/go_gorm_testity/entities"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -29,6 +30,11 @@ func (suite *productRepositorySuit) TestCreateProduct_Positive() {
 	}
 	suite.NoError(err, "no error")
 
+}
+
+func (suite *productRepositorySuit) TestGetAll() {
+	products := suite.repository.GetAll()
+	assert.Greater(suite.T(), len(products), 1)
 }
 
 func TestProductRepository(t *testing.T) {
