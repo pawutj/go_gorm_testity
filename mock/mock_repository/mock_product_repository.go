@@ -20,3 +20,9 @@ func (m *ProductRepository) GetAll() []entities.Product {
 
 	return products
 }
+
+func (m *ProductRepository) GetById() entities.Product {
+	product := entities.Product{}
+
+	return product
+}

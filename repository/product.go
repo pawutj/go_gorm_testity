@@ -13,6 +13,7 @@ type productRepository struct {
 type ProductRepository interface {
 	Create(product *entities.Product) error
 	GetAll() []entities.Product
+	GetById(id int) entities.Product
 }
 
 func InitialProductRepository() ProductRepository {
@@ -40,4 +41,10 @@ func (repository *productRepository) GetAll() []entities.Product {
 	products := []entities.Product{}
 	repository.db.Find(&products)
 	return products
+}
+
+func (repository *productRepository) GetById(id int) entities.Product {
+	product := entities.Product{}
+	repository.db.First(&product, "id = ?", 1)
+	return product
 }
