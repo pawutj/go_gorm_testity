@@ -37,6 +37,8 @@ func (suite *productRepositorySuit) TestGetAll() {
 	assert.Greater(suite.T(), len(products), 1)
 }
 
+// func (suite *productRepositorySuit) TestFindById
+
 func TestProductRepository(t *testing.T) {
 	suite.Run(t, new(productRepositorySuit))
 }
