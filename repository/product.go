@@ -17,7 +17,7 @@ type ProductRepository interface {
 }
 
 func InitialProductRepository() ProductRepository {
-	dsn := "root:123456@tcp(127.0.0.1:3306)/finalproject?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "admin:123456@tcp(127.0.0.1:3307)/test?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 	}
