@@ -29,6 +29,12 @@ func (suite *cartRepositorySuit) TestCreateCart_Positive() {
 
 }
 
+func (suite *cartRepositorySuit) TestAddProductToCart() {
+	product := entities.Product{ProductName: "testCart", Price: 200}
+	suite.repository.AddProductToCart(0, &product)
+	assert.Equal(suite.T(), nil, nil)
+}
+
 func TestCartRepository(t *testing.T) {
 	suite.Run(t, new(cartRepositorySuit))
 }

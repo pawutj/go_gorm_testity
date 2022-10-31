@@ -51,7 +51,7 @@ func (repository *productRepository) GetById(id int) entities.Product {
 }
 
 func (repository *productRepository) GetByName(name string) []entities.Product {
-	product := []entities.Product{}
-	repository.db.Find(&product, "product_name Like ?", name)
-	return product
+	products := []entities.Product{}
+	repository.db.Find(&products, "product_name Like ?", name)
+	return products
 }

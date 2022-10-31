@@ -12,6 +12,8 @@ type cartRepository struct {
 
 type CartRepository interface {
 	Create(cart *entities.Cart) error
+	GetById(id int) entities.Cart
+	AddProductToCart(cartId int, product *entities.Product) error
 }
 
 func InitialCartRepository() CartRepository {
@@ -32,5 +34,18 @@ func (repository *cartRepository) Create(cart *entities.Cart) error {
 		return dbc.Error
 	}
 
+	return nil
+}
+
+func (repository *cartRepository) GetById(id int) entities.Cart {
+	cart := entities.Cart{}
+	repository.db.First(&cart, "id = ?", id)
+	return cart
+}
+
+func (repository *cartRepository) AddProductToCart(cartId int, product *entities.Product) error {
+	cart := repository.GetById(cartId)
+	repository.db.Model(&cart).Association("Products").Append(&product)
+	repository.db.Session(&gorm.Session{FullSaveAssociations: true}).Updates(&cart)
 	return nil
 }
