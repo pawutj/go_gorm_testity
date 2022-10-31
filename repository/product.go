@@ -14,6 +14,7 @@ type ProductRepository interface {
 	Create(product *entities.Product) error
 	GetAll() []entities.Product
 	GetById(id int) entities.Product
+	GetByName(name string) []entities.Product
 }
 
 func InitialProductRepository() ProductRepository {
@@ -45,6 +46,12 @@ func (repository *productRepository) GetAll() []entities.Product {
 
 func (repository *productRepository) GetById(id int) entities.Product {
 	product := entities.Product{}
-	repository.db.First(&product, "id = ?", 1)
+	repository.db.First(&product, "id = ?", id)
+	return product
+}
+
+func (repository *productRepository) GetByName(name string) []entities.Product {
+	product := []entities.Product{}
+	repository.db.Find(&product, "product_name Like ?", name)
 	return product
 }

@@ -26,3 +26,8 @@ func (m *ProductRepository) GetById(id int) entities.Product {
 
 	return product
 }
+
+func (m *ProductRepository) GetByName(name string) []entities.Product {
+	product := []entities.Product{}
+	return product
+}
