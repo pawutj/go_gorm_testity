@@ -46,8 +46,8 @@ func (repository *cartRepository) GetById(id int) entities.Cart {
 
 func (repository *cartRepository) AddProductToCart(cartId int, product *entities.Product) error {
 	cart := repository.GetById(cartId)
-	products := []entities.Product{{ProductName: product.ProductName, Price: product.Price}}
-	cart.Products = products
+	// products := []entities.Product{{ProductName: product.ProductName, Price: product.Price}}
+	cart.Products = append(cart.Products, *product)
 	dbc := repository.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&cart)
 	if dbc != nil {
 		return dbc.Error

@@ -10,12 +10,15 @@ import (
 
 type cartRepositorySuit struct {
 	suite.Suite
-	repository CartRepository
+	repository        CartRepository
+	productRepository ProductRepository
 }
 
 func (suite *cartRepositorySuit) SetupSuite() {
 	repository := InitialCartRepository()
+	productRepository := InitialProductRepository()
 	suite.repository = repository
+	suite.productRepository = productRepository
 }
 
 func (suite *cartRepositorySuit) TestCreateCart_Positive() {
@@ -46,6 +49,15 @@ func (suite *cartRepositorySuit) TestUpdate() {
 	err := suite.repository.Update(2, &cart)
 
 	assert.Equal(suite.T(), err, nil)
+}
+
+func (suite *cartRepositorySuit) TestAddProductToCartByProductId() {
+	product := suite.productRepository.GetById(1)
+
+	err := suite.repository.AddProductToCart(2, &product)
+
+	assert.Equal(suite.T(), err, nil)
+
 }
 
 func TestCartRepository(t *testing.T) {
