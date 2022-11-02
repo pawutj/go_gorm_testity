@@ -36,8 +36,15 @@ func (suite *cartRepositorySuit) TestGetById() {
 }
 
 func (suite *cartRepositorySuit) TestAddProductToCart() {
-	product := entities.Product{ProductName: "testCart", Price: 200}
+	product := entities.Product{ProductName: "testCart", Price: 213}
 	err := suite.repository.AddProductToCart(1, &product)
+	assert.Equal(suite.T(), err, nil)
+}
+
+func (suite *cartRepositorySuit) TestUpdate() {
+	cart := entities.Cart{UserId: 20}
+	err := suite.repository.Update(2, &cart)
+
 	assert.Equal(suite.T(), err, nil)
 }
 

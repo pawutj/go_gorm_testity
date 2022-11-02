@@ -14,6 +14,7 @@ type CartRepository interface {
 	Create(cart *entities.Cart) error
 	GetById(id int) entities.Cart
 	AddProductToCart(cartId int, product *entities.Product) error
+	Update(cartId int, cart *entities.Cart) error
 }
 
 func InitialCartRepository() CartRepository {
@@ -45,9 +46,19 @@ func (repository *cartRepository) GetById(id int) entities.Cart {
 
 func (repository *cartRepository) AddProductToCart(cartId int, product *entities.Product) error {
 	cart := repository.GetById(cartId)
-	cart.Products = []entities.Product{{ProductName: "test2", Price: 200}}
-	//dbc := repository.db.Session(&gorm.Session{FullSaveAssociations: true}).Model(entities.Cart{}).Where("id = ?", cartId).Updates(&cart)
+	products := []entities.Product{{ProductName: product.ProductName, Price: product.Price}}
+	cart.Products = products
 	dbc := repository.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&cart)
+	if dbc != nil {
+		return dbc.Error
+	}
+	return nil
+}
+
+func (repository *cartRepository) Update(cartId int, cart *entities.Cart) error {
+	_cart := repository.GetById(cartId)
+	_cart.UserId = cart.UserId
+	dbc := repository.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&_cart)
 	if dbc != nil {
 		return dbc.Error
 	}
