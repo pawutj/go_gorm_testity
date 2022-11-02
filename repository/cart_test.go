@@ -29,10 +29,16 @@ func (suite *cartRepositorySuit) TestCreateCart_Positive() {
 
 }
 
+func (suite *cartRepositorySuit) TestGetById() {
+	cart := suite.repository.GetById(0)
+	assert.Equal(suite.T(), cart.ID, 0)
+	assert.Equal(suite.T(), cart.UserId, 0)
+}
+
 func (suite *cartRepositorySuit) TestAddProductToCart() {
 	product := entities.Product{ProductName: "testCart", Price: 200}
-	suite.repository.AddProductToCart(0, &product)
-	assert.Equal(suite.T(), nil, nil)
+	err := suite.repository.AddProductToCart(1, &product)
+	assert.Equal(suite.T(), err, nil)
 }
 
 func TestCartRepository(t *testing.T) {
