@@ -3,6 +3,7 @@ package repository
 import (
 	"testing"
 
+	config "github.com/pawutj/go_gorm_testity/config"
 	"github.com/pawutj/go_gorm_testity/entities"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
@@ -15,8 +16,9 @@ type cartRepositorySuit struct {
 }
 
 func (suite *cartRepositorySuit) SetupSuite() {
-	repository := InitialCartRepository()
-	productRepository := InitialProductRepository()
+	db := config.ConnectDB()
+	repository := InitialCartRepository(db)
+	productRepository := InitialProductRepository(db)
 	suite.repository = repository
 	suite.productRepository = productRepository
 }

@@ -2,7 +2,6 @@ package repository
 
 import (
 	"github.com/pawutj/go_gorm_testity/entities"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -17,12 +16,8 @@ type CartRepository interface {
 	Update(cartId int, cart *entities.Cart) error
 }
 
-func InitialCartRepository() CartRepository {
-	dsn := "admin:123456@tcp(127.0.0.1:3307)/test?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-	}
-	db.AutoMigrate(&entities.Cart{})
+func InitialCartRepository(db *gorm.DB) CartRepository {
+
 	repository := cartRepository{}
 	repository.db = db
 	return &repository

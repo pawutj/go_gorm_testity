@@ -2,7 +2,6 @@ package repository
 
 import (
 	"github.com/pawutj/go_gorm_testity/entities"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -17,12 +16,8 @@ type ProductRepository interface {
 	GetByName(name string) []entities.Product
 }
 
-func InitialProductRepository() ProductRepository {
-	dsn := "admin:123456@tcp(127.0.0.1:3307)/test?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-	}
-	db.AutoMigrate(&entities.Product{})
+func InitialProductRepository(db *gorm.DB) ProductRepository {
+
 	repository := productRepository{}
 	repository.db = db
 	return &repository
