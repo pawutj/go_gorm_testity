@@ -5,13 +5,15 @@ import (
 
 	config "github.com/pawutj/go_gorm_testity/config"
 	"github.com/pawutj/go_gorm_testity/entities"
+	"github.com/pawutj/go_gorm_testity/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
 type productRepositorySuit struct {
 	suite.Suite
-	repository ProductRepository
+	repository      ProductRepository
+	cleanupExecutor utils.TruncateTableExecutor
 }
 
 func (suite *productRepositorySuit) SetupSuite() {
@@ -19,6 +21,11 @@ func (suite *productRepositorySuit) SetupSuite() {
 
 	repository := InitialProductRepository(db)
 	suite.repository = repository
+	suite.cleanupExecutor = utils.InitTruncateTableExecutor(db)
+}
+
+func (suite *productRepositorySuit) TearDownTest() {
+	defer suite.cleanupExecutor.TruncateTable()
 }
 
 func (suite *productRepositorySuit) TestCreateProduct_Positive() {
@@ -54,4 +61,5 @@ func (suite *productRepositorySuit) TestGetByName() {
 
 func TestProductRepository(t *testing.T) {
 	suite.Run(t, new(productRepositorySuit))
+
 }
