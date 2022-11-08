@@ -16,7 +16,7 @@ func (executor *TruncateTableExecutor) TruncateTable() error {
 
 	err := executor.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Exec("DELETE FROM products")
 	if err != nil {
-		panic(err)
+		return err.Error
 	}
 	return err.Error
 }

@@ -31,32 +31,58 @@ func (suite *productRepositorySuit) TearDownTest() {
 func (suite *productRepositorySuit) TestCreateProduct_Positive() {
 
 	product := entities.Product{
-		ProductName: "test",
+		ProductName: "testCreate",
 		Price:       1,
 	}
-	err := suite.repository.Create(&product)
-	if err != nil {
+	suite.repository.Create(&product)
 
-	}
-	suite.NoError(err, "no error")
-
+	result := suite.repository.GetByName("testCreate")
+	assert.Equal(suite.T(), result[0].Price, 1)
 }
 
 func (suite *productRepositorySuit) TestGetAll() {
+
+	product := entities.Product{
+		ProductName: "testGetAll",
+		Price:       2,
+	}
+
+	suite.repository.Create(&product)
+
 	products := suite.repository.GetAll()
-	assert.Greater(suite.T(), len(products), 1)
+	assert.Greater(suite.T(), len(products), 0)
 }
 
 func (suite *productRepositorySuit) TestGetById() {
-	product := suite.repository.GetById(1)
-	assert.Equal(suite.T(), product.ID, 1)
-	assert.Equal(suite.T(), product.ProductName, "test")
+
+	_product := entities.Product{
+		ProductName: "testGetById",
+		Price:       2,
+	}
+	suite.repository.Create(&_product)
+
+	products := suite.repository.GetAll()
+	product := products[0]
+
+	result := suite.repository.GetById(product.ID)
+	assert.Equal(suite.T(), result.ID, product.ID)
+	assert.Equal(suite.T(), result.Price, product.Price)
+	assert.Equal(suite.T(), result.ProductName, product.ProductName)
+
 }
 
 func (suite *productRepositorySuit) TestGetByName() {
-	product := suite.repository.GetByName("test")
 
-	assert.GreaterOrEqual(suite.T(), len(product), 1)
+	product := entities.Product{
+		ProductName: "testGetByName",
+		Price:       3,
+	}
+	suite.repository.Create(&product)
+
+	products := suite.repository.GetByName("testGetByName")
+
+	assert.GreaterOrEqual(suite.T(), len(products), 0)
+	assert.Equal(suite.T(), products[0].Price, 3)
 }
 
 func TestProductRepository(t *testing.T) {
