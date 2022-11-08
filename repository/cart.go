@@ -12,6 +12,7 @@ type cartRepository struct {
 type CartRepository interface {
 	Create(cart *entities.Cart) error
 	GetById(id int) entities.Cart
+	GetAll() []entities.Cart
 	AddProductToCart(cartId int, product *entities.Product) error
 	Update(cartId int, cart *entities.Cart) error
 }
@@ -31,6 +32,13 @@ func (repository *cartRepository) Create(cart *entities.Cart) error {
 	}
 
 	return nil
+}
+
+func (repository *cartRepository) GetAll() []entities.Cart {
+	carts := []entities.Cart{}
+	repository.db.Find(&carts)
+
+	return carts
 }
 
 func (repository *cartRepository) GetById(id int) entities.Cart {

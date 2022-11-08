@@ -12,9 +12,10 @@ func InitTruncateTableExecutor(db *gorm.DB) TruncateTableExecutor {
 	return TruncateTableExecutor{db}
 }
 
-func (executor *TruncateTableExecutor) TruncateTable() error {
+func (executor *TruncateTableExecutor) TruncateTable(db string) error {
 
-	err := executor.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Exec("DELETE FROM products")
+	command := "DELETE FROM " + db + ";"
+	err := executor.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Exec(command)
 	if err != nil {
 		return err.Error
 	}

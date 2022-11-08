@@ -25,7 +25,7 @@ func (suite *productRepositorySuit) SetupSuite() {
 }
 
 func (suite *productRepositorySuit) TearDownTest() {
-	defer suite.cleanupExecutor.TruncateTable()
+	defer suite.cleanupExecutor.TruncateTable("products")
 }
 
 func (suite *productRepositorySuit) TestCreateProduct_Positive() {
